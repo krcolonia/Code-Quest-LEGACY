@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/fonts/unispace-regular.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/proofofconcept_BG.png" type="Texture" id=2]
+[ext_resource path="res://assets/fonts/bender-bold.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://scenes/UiElements/MenuBtn.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/levels/testlevel1.cs" type="Script" id=5]
+[ext_resource path="res://scenes/Code-Analysis/Analyzer.tscn" type="PackedScene" id=6]
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 18
+font_data = ExtResource( 1 )
+
+[node name="Test Level 1" type="Node"]
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_horizontal_guides_": [ -277.0 ]
+}
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+
+[node name="RichTextLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.122
+anchor_right = 0.5
+anchor_bottom = 0.122
+margin_left = -206.0
+margin_top = -48.84
+margin_right = 206.0
+margin_bottom = 48.16
+custom_fonts/font = SubResource( 3 )
+text = "Test Level 1
+Print out 'Hello, World!''"
+align = 1
+valign = 1
+
+[node name="TextEdit" type="TextEdit" parent="."]
+anchor_left = 0.5
+anchor_top = 0.201
+anchor_right = 0.5
+anchor_bottom = 0.201
+margin_left = -219.0
+margin_top = -0.0240021
+margin_right = 219.0
+margin_bottom = 431.976
+custom_fonts/font = SubResource( 2 )
+show_line_numbers = true
+bookmark_gutter = true
+caret_block_mode = true
+caret_blink = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CheckBtn" parent="." instance=ExtResource( 4 )]
+anchor_left = 0.745
+anchor_top = 0.885
+anchor_right = 0.745
+anchor_bottom = 0.885
+margin_left = -85.4
+margin_top = -50.2
+margin_right = 85.6
+margin_bottom = 50.8
+text = "Enter Code"
+
+[node name="CodeAnalyzer" parent="." instance=ExtResource( 6 )]
+
+[connection signal="pressed" from="CheckBtn" to="." method="_on_CheckBtn_pressed"]

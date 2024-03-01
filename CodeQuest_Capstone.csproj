@@ -1,0 +1,15 @@
+<Project Sdk="Godot.NET.Sdk/3.3.0">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <!-- <ItemGroup>
+    <Compile Include="scenes\UiElements\MenuBtn.cs" />
+
+    <Compile Include="scripts\code-analysis\Analyzer.cs" />
+    <Compile Include="scripts\levels\testlevel1.cs" />
+    <Compile Include="scripts\ui\MainMenu.cs" />
+
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup> -->
+</Project>
