@@ -11,15 +11,15 @@ public class MainMenu : Control
 
   private void _on_StartBtn_pressed()
   {
-    GetTree().ChangeScene("res://scenes/level1.tscn");
+	GetTree().ChangeScene("res://scenes/level1.tscn");
   }
 
   private void _on_ExitBtn_pressed()
   {
-    if (GetNode<AudioStreamPlayer>("/root/BtnClick").Playing == false)
-    {
-      GetTree().Quit();
-    }
+	if (GetNode<AudioStreamPlayer>("/root/BtnClick").Playing == false)
+	{
+	  GetTree().Quit();
+	}
 
 
   }

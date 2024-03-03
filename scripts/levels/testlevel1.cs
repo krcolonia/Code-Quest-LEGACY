@@ -9,11 +9,12 @@ public class testlevel1 : Node
   // private string b = "text";
 
   Analyzer analyzer = new Analyzer();
+  PrintMethod print = new PrintMethod();
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    
+	
   }
 
   //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,10 +25,12 @@ public class testlevel1 : Node
 
   private void _on_CheckBtn_pressed()
   {
-    var input = GetNode<TextEdit>("TextEdit");
+	var input = GetNode<TextEdit>("VBoxContainer/CodeWorkspace");
+	var console = GetNode<TextEdit>("VBoxContainer/CodeConsole");
 
-    GD.Print("Your input is: " + input.Text);
+	GD.Print("Your input is: " + input.Text + "\n");
 
-    analyzer.CodeCheck(input.Text);
+	console.Text = "C:\\Users\\Player>\n" + print.Print(input.Text);
+   
   }
 }
