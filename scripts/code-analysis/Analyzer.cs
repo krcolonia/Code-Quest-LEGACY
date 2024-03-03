@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 public class Analyzer : Node
 {
 
-  // TODO - divide all source code interpretation into different methods, turn all if-else statements into switch statements
+  // ! WARNING: Deprecated, tinabi ko na lang bilang basis sa pag-ayos ko pa ng modules ng CQScript.
 
   private List<string> output = new List<string>();
   private List<string> syntaxList = new List<string>();
@@ -89,7 +89,7 @@ public class Analyzer : Node
   private bool syntax(List<string> output)
   {
 
-    // TODO - add more syntax formats. method, method_call, for_loop, while_loop, dowhile_loop, arithmetic, concatenation.
+    // TODO - add more syntax formats. method, for_loop, while_loop, dowhile_loop, arithmetic, concatenation.
 
     if (output.Count == 5 && output[0] == "<data_type>" && output[1] == "<identifier>" && output[2] == "<assignment_operator>" && output[3] == "<value>" && output[4] == "<delimiter>")
     {

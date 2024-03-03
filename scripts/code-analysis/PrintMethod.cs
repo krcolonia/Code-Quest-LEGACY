@@ -7,17 +7,7 @@ using System.Text.RegularExpressions;
 
 public class PrintMethod : Node
 {
-  // // Called when the node enters the scene tree for the first time.
-  // public override void _Ready()
-  // {
-
-  // }
-
-  //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-  //  public override void _Process(float delta)
-  //  {
-  //      
-  //  }
+  // ! WARNING: Deprecated, tinabi ko na lang bilang basis sa pag-ayos ko pa ng modules ng CQScript.
 
   private List<string> output = new List<string>();
   private List<string> syntaxList = new List<string>();
@@ -122,41 +112,88 @@ public class PrintMethod : Node
 
   private void Tokenizer(string item)
   {
-    if (item == "print" || item == "println")
+    switch(item)
     {
-      syntaxList.Add(item);
-      output.Add("<method>");
-    }
-    else if (item == "(")
-    {
-      syntaxList.Add(item);
-      output.Add("<oparen>");
-    }
-    else if (Regex.IsMatch(item, "-?\\d+") || Regex.IsMatch(item, "\"[^\"]*\"") || Regex.IsMatch(item, "'.'") || Regex.IsMatch(item, "-?\\d+(\\.\\d+)?"))
-    {
-      syntaxList.Add(item);
-      output.Add("<value>");
-    }
-    else if (item == ")")
-    {
-      syntaxList.Add(item);
-      output.Add("<cparen>");
-    }
-    else if (item == ";")
-    {
-      syntaxList.Add(item);
-      output.Add("<delimiter>");
-    }
-    else if (!output.Contains("\""))
-    {
-      syntaxList.Add(item);
-      output.Add("<identifier>");
-    }
-    else
-    {
-      error = true;
+      case "print":
+      case "println":
+        syntaxList.Add(item);
+        output.Add("<method>");
+        break;
+      case "(":
+        syntaxList.Add(item);
+        output.Add("<oparen>");
+        break;
+      case ")":
+        syntaxList.Add(item);
+        output.Add("<cparen>");
+        break;
+      // case "int":
+      // case "double":
+      // case "char":
+      // case "string":
+      //   syntaxList.Add(item);
+      //   output.Add("<data_type>");
+      //   break;
+      case "=":
+        syntaxList.Add(item);
+        output.Add("<assignment_operator>");
+        break;
+      case ";":
+        syntaxList.Add(item);
+        output.Add("<delimiter>");
+        break;
+      case string IntVal when Regex.IsMatch(IntVal, "-?\\d+"):
+      case string StrVal when Regex.IsMatch(StrVal, "\"[^\"]*\""):
+      case string ChrVal when Regex.IsMatch(ChrVal, "'.'"):
+      case string DblVal when Regex.IsMatch(DblVal, "-?\\d+(\\.\\d+)?"):
+        syntaxList.Add(item);
+        output.Add("<value>");
+        break;
+      case string ident when !ident.Contains("\""):
+        break;
+      default:
+        error = true;
+        break;
     }
   }
+
+  // private void Tokenizer(string item)
+  // {
+  //   if (item == "print" || item == "println")
+  //   {
+  //     syntaxList.Add(item);
+  //     output.Add("<method>");
+  //   }
+  //   else if (item == "(")
+  //   {
+  //     syntaxList.Add(item);
+  //     output.Add("<oparen>");
+  //   }
+  //   else if (Regex.IsMatch(item, "-?\\d+") || Regex.IsMatch(item, "\"[^\"]*\"") || Regex.IsMatch(item, "'.'") || Regex.IsMatch(item, "-?\\d+(\\.\\d+)?"))
+  //   {
+  //     syntaxList.Add(item);
+  //     output.Add("<value>");
+  //   }
+  //   else if (item == ")")
+  //   {
+  //     syntaxList.Add(item);
+  //     output.Add("<cparen>");
+  //   }
+  //   else if (item == ";")
+  //   {
+  //     syntaxList.Add(item);
+  //     output.Add("<delimiter>");
+  //   }
+  //   else if (!output.Contains("\""))
+  //   {
+  //     syntaxList.Add(item);
+  //     output.Add("<identifier>");
+  //   }
+  //   else
+  //   {
+  //     error = true;
+  //   }
+  // }
 
   private List<string> SplitString(string input)
   {

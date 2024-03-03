@@ -11,6 +11,8 @@ public class testlevel1 : Node
   Analyzer analyzer = new Analyzer();
   PrintMethod print = new PrintMethod();
 
+  CQScript cqscriptBase = new CQScript();
+
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
@@ -30,7 +32,7 @@ public class testlevel1 : Node
 
 	GD.Print("Your input is: " + input.Text + "\n");
 
-	console.Text = "C:\\Users\\Player>\n" + print.Print(input.Text);
+	console.Text = "C:\\Users\\Player>\n" + cqscriptBase.RunInterpreter(input.Text);
    
   }
 }
