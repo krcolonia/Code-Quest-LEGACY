@@ -17,7 +17,12 @@ public class CQScript : Node
     - Interpreter : Reads the code, executes said code based on passed syntax type from Parser.
 
     These three components are what make up CQScript. Currently, it's only able to read one line at a time.
-    (krColonia comment - I'm working on making the game be able to read multiple lines and store variables, but this'll do for now.)
+
+
+    P.S. - I'm working on making the game be able to read multiple lines and store variables, but this'll do for now.
+    P.P.S. - tingin ko kaya pang i-optimize ung code sa 3 modules, pero for now di ko muna iisipin masyado since
+             proof of concept pa lang ung base functions na i-dedevelop natin.
+    
    */
 
 
@@ -31,20 +36,24 @@ public class CQScript : Node
   {
     string ConsolePrint = "";
 
+    // Calls Token method, retrieved Lexemes and Tokens after Tokenizing is done
     LexemesTokens lextokens = tokenizer.RetrieveLexemesTokens(input);
 
+    // Initialize boolean variables for code analysis
     bool lexValid = lextokens.ValidLexes;
     bool parseValid = lextokens.ValidParse;
 
     if(lextokens.ValidLexes)
     {
       lextokens = parser.SyntaxParser(lextokens);
+      // TODO : pang debug lang tong print na to, delete later
       GD.Print("ValidLexes  = " + lextokens.ValidLexes + ", ValidParse  = " + lextokens.ValidParse + ", SyntaxType  = " + lextokens.SyntaxType);
     }
 
     if(lextokens.ValidParse)
     {
       ConsolePrint = interpreter.InterpretCode(lextokens);
+      // TODO : pang debug lang tong print na to, delete later
       GD.Print("ValidParse  = " + lextokens.ValidParse);
     }
 

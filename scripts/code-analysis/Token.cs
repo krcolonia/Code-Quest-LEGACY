@@ -9,7 +9,10 @@ using System.Text.RegularExpressions;
 public class Token : Node
 {
 
+  // ? Stores Lexemes, or ung mga napaghiwa-hiwalay na words sa isang line.
   private List<string> lexemes = new List<string>();
+
+  // ? Stores tokens, ito ung nagdedetermine kung ano ba ung specific na word na nasplit. Punta ka line 81, mas explained ko don.
   private List<string> tokens = new List<string>();
 
   private bool error = false;
@@ -28,9 +31,11 @@ public class Token : Node
     "println"
   };
 
+  // ? ito yung bukod tanging public na method sa class na to.
+  // ? ito yung tinatawag sa CQScript, dito nagsisimula and nage-end ung function ng Token class.
   public LexemesTokens RetrieveLexemesTokens(string input)
   {
-    ClearVars();
+    ClearVars(); // ? gamit to pang clear ng variables para pag magru-run uli si user ng code niya, di masama sa pag-run ung previous run niya.
 
     List<string> split = SplitLexemes(input);
 
@@ -43,9 +48,12 @@ public class Token : Node
       return null;
     }
 
+    // ? ito yung binabato pabalik sa CQScript.cs para magamit pa nung Parser and Interpreter.
     return new LexemesTokens { lexemes = lexemes, tokens = tokens, ValidLexes = true, ValidParse = false, SyntaxType = "" };
   }
 
+  // ? Galing sa SplitLexemes method, ipapass niya yung bawat split item sa MakeTokens method.
+  // ? Magru-run to hanggang sa makita niya na ung current item niya ung delimiter, which indicates a line end in coding.
   private bool LexicalAnalysis(List<string> split)
   {
     foreach (string item in split)
@@ -78,6 +86,12 @@ public class Token : Node
     }
   }
 
+  // ? Ito yung gumagawa ng tinatawag na "tokens"
+  // ? Tokens, nagrerefer sa kung ano ba ung function ng isang part/word ng code.
+  // ? For example, int a = 1; pag na-split na siya, magiging 'int', 'a', '=', '1', ';'
+  // ? ang gagawin ng tokenizer, magseset ng kung ano ung meaning ng bawat split word
+  // ? 'int' == '<data_type>', 'a' == '<identifier>', '=' == '<assignment_operator>', '1' == '<value>', ';' == '<delimiter>'
+  // ? kumbaga, para syang dictionary, binibigyan niyang meaning ung split-apart na codes.
   private void MakeTokens(string item)
   {
     if (TYPES.Contains(item))
@@ -132,7 +146,7 @@ public class Token : Node
   {
     List<string> split = new List<string>();
 
-    // Splits input if it is calling a method
+    // ? Splits input if it is calling a method
     string parenSplit = @"(\()|(\))";
     split = new List<string>(Regex.Split(input, parenSplit));
     split.RemoveAll(string.IsNullOrEmpty);
@@ -142,7 +156,7 @@ public class Token : Node
     Regex pattern = new Regex("\"([^\"]*)\"|\\S+");
     MatchCollection matcher = pattern.Matches(input);
 
-    // If not method, splits it like a variable declaration/initialization.
+    // ? If not method, splits it like a variable declaration/initialization.
     if (split.Count <= 1)
     {
       split.Clear();
@@ -157,7 +171,7 @@ public class Token : Node
   }
 
 
-  // Clears all inputs, used when running the code in-game
+  //  ? Clears all inputs, used when running the code in-game
   private void ClearVars()
   {
     lexemes.Clear();

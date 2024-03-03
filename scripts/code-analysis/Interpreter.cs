@@ -8,6 +8,10 @@ using System.Text.RegularExpressions;
 public class Interpreter : Node
 {
 
+  // ? Last module, Interpreter. Nagbabase siya sa may syntax type kung ano ipiprint out sa ingame console/terminal
+  // ? I believe self-explanable naman ung switch-case and if-else statements dito kung nabasa mo comments ko sa Token and Parser classes.
+  // ? Pero kung may tanong ka, hmu para ma-explain ko pano to gumagana. -krColonia.
+
   public string InterpretCode(LexemesTokens lextokens)
   {
     List<string> lexemes = lextokens.lexemes;

@@ -8,6 +8,12 @@ using System.Xml;
 
 public class Parser : Node
 {
+  // ? Yung parser, ang ginagawa nito is siya yung nagchecheck kung anong type ng syntax siya. ito mga examples:
+
+  // ? string a = "jello"; is equals to an assignment syntax type. Kasi, ina-assign niya si string na "a" ng value na "jello"
+  // ? string a; is equals to declaration syntax type. Kasi, dinedeclare niya lang yung string variable na "a" pero wala siyang assigned value.
+  // ? println("Hello, World!"); is equals to method syntax type. Kasi, tinatawag niya yung "println" na method para i-print yung value na "Hello, World!"
+
   public LexemesTokens SyntaxParser(LexemesTokens lextokens)
   {
     List<string> tokens = lextokens.tokens;

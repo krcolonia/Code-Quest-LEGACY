@@ -4,13 +4,6 @@ using System.CodeDom;
 
 public class testlevel1 : Node
 {
-  // Declare member variables here. Examples:
-  // private int a = 2;
-  // private string b = "text";
-
-  Analyzer analyzer = new Analyzer();
-  PrintMethod print = new PrintMethod();
-
   CQScript cqscriptBase = new CQScript();
 
   // Called when the node enters the scene tree for the first time.
@@ -18,6 +11,8 @@ public class testlevel1 : Node
   {
 	
   }
+
+  // TODO :  implement timer per level. might probably implement it using an instantiated scene again -krColonia
 
   //  // Called every frame. 'delta' is the elapsed time since the previous frame.
   //  public override void _Process(float delta)
@@ -33,6 +28,5 @@ public class testlevel1 : Node
 	GD.Print("Your input is: " + input.Text + "\n");
 
 	console.Text = "C:\\Users\\Player>\n" + cqscriptBase.RunInterpreter(input.Text);
-   
   }
 }
