@@ -13,7 +13,7 @@ public class PrintMethod : Node
   private List<string> syntaxList = new List<string>();
 
   private bool error = false;
-  private string syntaxFormat = "";
+  private string syntaxFormat;
 
   private string ConsolePrint = "";
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-public class Interpreter : Node
+public class InterpreterOLD : Node
 {
 
   // ? Last module, Interpreter. Nagbabase siya sa may syntax type kung ano ipiprint out sa ingame console/terminal

@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.CodeDom;
 
 public class testlevel1 : Node
 {
@@ -25,7 +24,7 @@ public class testlevel1 : Node
 	var input = GetNode<TextEdit>("VBoxContainer/CodeWorkspace");
 	var console = GetNode<TextEdit>("VBoxContainer/CodeConsole");
 
-	GD.Print("Your input is: " + input.Text + "\n");
+	GD.Print("Your input is:\n" + input.Text + "\n");
 
 	console.Text = "C:\\Users\\Player>\n" + cqscriptBase.RunInterpreter(input.Text);
   }
