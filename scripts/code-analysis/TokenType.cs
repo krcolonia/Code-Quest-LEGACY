@@ -1,4 +1,3 @@
-using Godot;
 using System;
 
 public enum TokenType
@@ -21,5 +20,6 @@ public enum TokenType
   Variable,
   Keyword,
   Punctuation,
-  Operator
+  Operator,
+  Program,
 }

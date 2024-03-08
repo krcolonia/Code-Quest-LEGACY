@@ -9,7 +9,7 @@ public class TokenStream : Node
   private InputStream input;
   private Token current = null;
 
-  private HashSet<string> KEYWORDS = new HashSet<string>
+  private readonly HashSet<string> KEYWORDS = new HashSet<string>
     {
       "int",
       "double",
@@ -51,6 +51,13 @@ public class TokenStream : Node
   {
     return Peek() == null;
   }
+
+  public string croak(string msg)
+  {
+    return input.croak(msg);
+  }
+
+  // private methods, used mainly for tokenizing and lexing input
 
   private bool IsKeyword(string x)
   {
@@ -139,7 +146,6 @@ public class TokenStream : Node
     bool escaped = false;
     string str = "";
 
-
     int charCount = 0; // keeps count of characters within current token. used for validating char
     char strEnd = '\0';
 
@@ -149,7 +155,6 @@ public class TokenStream : Node
     {
       char ch = input.Next();
       charCount++;
-      GD.Print(charCount);
 
       if (escaped)
       {
@@ -193,8 +198,6 @@ public class TokenStream : Node
   {
     string str = ReadEscaped('"');
 
-    GD.Print(str);
-
     if(str == null)
     {
       return null;
@@ -203,7 +206,6 @@ public class TokenStream : Node
     {
       return new Token(TokenType.String, str);
     }
-
   }
 
   private Token ReadChar()

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Parser : Node
 {
   private TokenStream input;
+  private string ConsolePrint;
 
   private Dictionary<string, int> PRECEDENCE = new Dictionary<string, int>
   {
@@ -17,7 +18,11 @@ public class Parser : Node
     { "*", 20 }, { "/", 20 }, { "%", 20 },
   };
 
-  public Parser(TokenStream input) {
+  public Parser(TokenStream input, string ConsolePrint)
+  {
     this.input = input;
+    this.ConsolePrint = ConsolePrint;
   }
+
+  
 }

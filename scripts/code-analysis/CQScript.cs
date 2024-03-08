@@ -27,11 +27,13 @@ public class CQScript : Node
 
     TokenStream tokenizer = new TokenStream(stream, ConsolePrint);
 
+    ConsolePrint += "[ ";
     while (!tokenizer.EOF())
     {
       Token token = tokenizer.Next();
-      ConsolePrint += $"(Type: {token.Type}, Value: {token.Value})\n";
+      ConsolePrint += $" {token.Type}:{token.Value} ";
     }
+    ConsolePrint += " ]\n";
 
     ConsolePrint += tokenizer.GetConsolePrint();
 
