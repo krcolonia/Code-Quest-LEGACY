@@ -86,7 +86,12 @@ public class TokenStream : Node
 
   private bool IsPunc(char ch)
   {
-    return ",;(){}[]".IndexOf(ch) >= 0;
+    return ",(){}[]".IndexOf(ch) >= 0;
+  }
+
+  private bool IsTerminator(char ch)
+  {
+    return ch == ';';
   }
 
   private bool IsWhitespace(char ch)
@@ -125,12 +130,10 @@ public class TokenStream : Node
     }
     else if (hasDot && double.TryParse(number, out double doubleCheck))
     {
-      GD.Print("double");
       return new Token(TokenType.Double, double.Parse(number));
     }
     else
     {
-      GD.Print("integer");
       return new Token(TokenType.Integer, int.Parse(number));
     }
   }
@@ -138,7 +141,7 @@ public class TokenStream : Node
   private Token ReadIdent()
   {
     string id = ReadWhile(IsId);
-    return new Token(IsKeyword(id) ? TokenType.Keyword : TokenType.Variable, id);
+    return new Token(IsKeyword(id) ? TokenType.Keyword : TokenType.Identifier, id);
   }
 
   private string ReadEscaped(char end)
@@ -243,6 +246,7 @@ public class TokenStream : Node
     if (IsDigit(ch)) return ReadDigit();
     if (IsIdStart(ch)) return ReadIdent();
     if (IsPunc(ch)) return new Token(TokenType.Punctuation, input.Next().ToString());
+    if (IsTerminator(ch)) return new Token(TokenType.Terminator, input.Next().ToString());
     if (IsOpChar(ch)) return new Token(TokenType.Operator, ReadWhile(IsOpChar));
 
     return null;

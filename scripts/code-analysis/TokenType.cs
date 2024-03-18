@@ -2,7 +2,7 @@ using System;
 
 public enum TokenType
 {
-  // Data Types
+  // Data Types, used to identify the data type of a values
   Integer,
   Double,
   String,
@@ -17,9 +17,11 @@ public enum TokenType
   Mod,
 
   // Tokens na hindi ko pa macategorize
-  Variable,
+  // Variable,
+  Identifier,
   Keyword,
   Punctuation,
+  Terminator,
   Operator,
   Program,
 }

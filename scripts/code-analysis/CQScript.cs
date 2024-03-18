@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class CQScript : Node
 {
@@ -27,13 +28,30 @@ public class CQScript : Node
 
     TokenStream tokenizer = new TokenStream(stream, ConsolePrint);
 
-    ConsolePrint += "[ ";
+    List<Token> tokenlist = new List<Token>();
+
+    // TODO -- put the parser here once it is DONE
     while (!tokenizer.EOF())
     {
       Token token = tokenizer.Next();
-      ConsolePrint += $" {token.Type}:{token.Value} ";
+      // TODO -- make a 2D List that stores all the tokens in a line, and separates each line into its own item in the list
+      // TODO -- make a way to pass this list onto the Parser
+      // TODO -- DEVELOP THE DAMN PARSER, KURT -krcolonia (yes, this is a reminder to myself.)
+      tokenlist.Add(token); // ? stores all the read tokens into a list
     }
-    ConsolePrint += " ]\n";
+
+    foreach (Token item in tokenlist)
+    {
+      if (item.Type == TokenType.Terminator)
+      {
+        ConsolePrint += $" {item.Type}:{item.Value} ";
+        ConsolePrint += "\n";
+      }
+      else
+      {
+        ConsolePrint += $" {item.Type}:{item.Value} ";
+      }
+    }
 
     ConsolePrint += tokenizer.GetConsolePrint();
 
