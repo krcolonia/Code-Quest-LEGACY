@@ -2,6 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
 
   <!-- <ItemGroup>
     <Compile Include="scenes\UiElements\MenuBtn.cs" />

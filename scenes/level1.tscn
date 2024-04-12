@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://assets/fonts/unispace-regular.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/fonts/console-font.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/proofofconcept_BG.png" type="Texture" id=2]
 [ext_resource path="res://assets/fonts/bender-bold.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://scenes/UiElements/MenuBtn.tscn" type="PackedScene" id=4]
@@ -12,11 +12,11 @@ size = 25
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 12
+size = 14
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 12
+size = 14
 font_data = ExtResource( 1 )
 
 [node name="Test Level 1" type="Node"]
@@ -43,8 +43,7 @@ margin_top = -48.84
 margin_right = 206.0
 margin_bottom = 48.16
 custom_fonts/font = SubResource( 3 )
-text = "Test Level 1
-Print out \"Hello, World!''"
+text = "TESTING LEVEL"
 align = 1
 valign = 1
 

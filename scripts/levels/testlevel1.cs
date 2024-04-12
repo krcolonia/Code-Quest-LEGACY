@@ -22,18 +22,13 @@ public class testlevel1 : Node
 
     if (Input.IsKeyPressed(16777254))
     {
+      GetNode<AudioStreamPlayer>("/root/BtnClick").Play();
       console.Text = "C:\\Users\\Player>\n" + cqscriptBase.RunInterpreter(input.Text);
     }
   }
 
   // TODO :  implement timer per level. might probably implement it using an instantiated scene again -krColonia
-
-  //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-  //  public override void _Process(float delta)
-  //  {
-  //      
-  //  }
-
+  
   private void _on_CheckBtn_pressed()
   {
     var input = GetNode<TextEdit>("VBoxContainer/CodeWorkspace");

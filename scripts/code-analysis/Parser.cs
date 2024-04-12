@@ -2,238 +2,114 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
+using System.IO;
 
 public class Parser : Node
 {
-  private TokenStream input;
-  private string ConsolePrint;
+  private InputStream input;
 
-  private Dictionary<string, int> PRECEDENCE = new Dictionary<string, int>
-  {
-    { "=", 1 },
-    { "||", 2},
-    { "&&", 3 },
-    { "<", 7 }, { ">", 7 }, { "<=", 7 }, { ">=", 7 }, { "==", 7 }, { "!=", 7 },
-    { "+", 10 }, { "-", 10 },
-    { "*", 20 }, { "/", 20 }, { "%", 20 },
-  };
+  private List<Token> tokens = new List<Token>();
+  private string ConsolePrint = "";
 
-  public Parser(TokenStream input, string ConsolePrint)
+  private int current = 0;
+
+  public Parser(List<Token> tokens, string ConsolePrint)
   {
-    this.input = input;
+    this.tokens = tokens;
     this.ConsolePrint = ConsolePrint;
   }
 
-  // ? Checks each character in input is a punctuation, keyword, or operator
-
-  /* private Token IsPunc(string ch)
+  public string GetConsolePrint()
   {
-    var tok = input.Peek();
-    return tok != null && tok.Type == TokenType.Punctuation && (string.IsNullOrEmpty(ch) || tok.Value.ToString() == ch) ? tok : null;
+    return ConsolePrint;
   }
 
-  private Token IsKeyword(string kw)
+  public Token Next()
   {
-    var tok = input.Peek();
-    return tok != null && tok.Type == TokenType.Keyword && (string.IsNullOrEmpty(kw) || tok.Value.ToString() == kw) ? tok : null;
+    Token tok = tokens[current];
+    current++;
+
+    return tok;
   }
 
-  private Token IsOp(string op)
+  public Token Peek()
   {
-    var tok = input.Peek();
-    return tok != null && tok.Type == TokenType.Operator && (string.IsNullOrEmpty(op) || tok.Value.ToString() == op) ? tok : null;
+    return tokens[current];
   }
 
-
-
-  private void SkipPunc(string ch)
+  public bool EOF()
   {
-    if (IsPunc(ch) != null)
-      input.Next();
-    else
-      input.croak("Expecting punctuation: \"" + ch + "\"");
-  }
-  private void SkipKeyword(string kw)
-  {
-    if (IsPunc(kw) != null)
-      input.Next();
-    else
-      input.croak("Expecting keyword: \"" + kw + "\"");
+    return Peek() == new Token(TokenType.EOF, null);
   }
 
-  private void SkipOp(string op)
+  public string croak(string msg)
   {
-    if (IsOp(op) != null)
-      input.Next();
-    else
-      input.croak("Expecting operator: \"" + op + "\"");
+    return input.croak(msg);
   }
 
-  private void Unexpected()
+  public Program ProduceAST()
   {
-    input.croak("Unexpected token: " + input.Peek());
-  }
+    Program program = new Program { Body = new List<Stmt>() };
 
-  private dynamic MaybeBinary(dynamic left, dynamic myPrec)
-  {
-    var tok = IsOp("");
-    if (tok != null)
+    while (!EOF())
     {
-      var hisPrec = PRECEDENCE[tok.Value.ToString()];
-      if (hisPrec > myPrec)
-      {
-        input.Next();
-        return MaybeBinary(
-          new
-          {
-            Type = tok.Value.ToString() == "=" ? "assign" : "binary",
-            Operator = tok.Value,
-            Left = left,
-            Right = MaybeBinary(ParseAtom(), hisPrec)
-          },
-          myPrec
-        );
-      }
+      program.Body.Add(ParseStmt());
     }
+
+    return program;
+  }
+
+  private Stmt ParseStmt()
+  {
+    return ParseAdditiveExpr();
+  }
+
+  private Expr ParseAdditiveExpr()
+  {
+    Expr left = ParseMultiplicativeExpr();
+
+    while (Peek().Type == TokenType.Operator && (Peek().Value.ToString() == "+" || Peek().Value.ToString() == "-"))
+    {
+      string op = Next().Value.ToString();
+      Expr right = ParseMultiplicativeExpr();
+      left = new BinaryExpr { Left = left, Right = right, Operator = op };
+    }
+
     return left;
   }
 
-  private List<dynamic> Delimited(string start, string stop, string separator, Func<dynamic> parser)
+  private Expr ParseMultiplicativeExpr()
   {
-    var a = new List<dynamic>();
-    var first = true;
-    SkipPunc(start);
-    while (!input.EOF())
+    Expr left = ParsePrimaryExpr();
+
+    while(Peek().Type == TokenType.Operator && (Peek().Value.ToString() == "/" || Peek().Value.ToString() == "*" || Peek().Value.ToString() == "%"))
     {
-      if (IsPunc(stop) != null)
-      {
-        break;
-      }
-
-      if (first)
-      {
-        first = false;
-      }
-      else
-      {
-        SkipPunc(separator);
-      }
-
-      if (IsPunc(stop) != null)
-      {
-        break;
-      }
-
-      a.Add(parser());
+      string op = Next().Value.ToString();
+      Expr right = ParsePrimaryExpr();
+      left = new BinaryExpr { Left = left, Right = right, Operator = op };
     }
-    SkipPunc(stop);
-    return a;
+
+    return left;
   }
 
-  private dynamic ParseCall(dynamic func)
+  private Expr ParsePrimaryExpr()
   {
-    return new
-    {
-      Type = "call",
-      Func = func,
-      Args = Delimited("(", ")", ",", ParseExpression),
-    };
-  }
+    TokenType tk = Peek().Type;
 
-  private string ParseVariableName()
-  {
-    var name = input.Next();
-    if (name.Type != TokenType.Identifier)
+    switch (tk)
     {
-      input.croak("Expecting variable name");
+      case TokenType.Identifier:
+        return new Identifier { Symbol = Next().Value.ToString() };
+
+      case TokenType.Integer:
+        return new NumericLiteral { Number = int.Parse(Next().Value.ToString()) };
+
+      case TokenType.Double:
+        return new NumericLiteral { Number = double.Parse(Next().Value.ToString()) };
+
+      default:
+        GD.Print("Unexpected token found during parsing");
+        return null;
     }
-    return name.Value.ToString();
   }
-
-  // private dynamic ParseIf()
-  // {
-  //   SkipKeyword("if");
-  //   var cond = ParseExpression();
-  //   if(IsPunc("{") != null)
-  //   {
-  //     SkipKeyword("then");
-  //   }
-  //   var then = ParseExpression();
-  //   var ret = new
-  //   {
-  //     Type = "if",
-  //     Cond = cond,
-  //     Then = then,
-  //   };
-
-  //   if(IsKeyword("else") != null)
-  //   {
-  //     input.Next();
-  //     ret.Else = ParseExpression();
-  //   }
-  //   return ret;
-  // }
-
-  private dynamic ParseBool()
-  {
-    return new
-    {
-      Type = "bool",
-      Value = input.Next().Value == "true"
-    };
-  }
-
-  private dynamic MaybeCall(Func<dynamic> expr)
-  {
-    var result = expr();
-    return IsPunc("(") != null ? ParseCall(result) : result;
-  }
-
-  private dynamic ParseAtom()
-  {
-    return MaybeCall(() =>
-    {
-      if (IsPunc("(") != null)
-      {
-        input.Next();
-        var exp = ParseExpression();
-        SkipPunc(")");
-        return exp;
-      }
-
-      // if (IsPunc("{") != null)
-      // {
-      //   return ParseProg();
-      // }
-
-      // if(IsKeyword("if") != null)
-      // {
-      //   return ParseIf();
-      // }
-
-      if(IsKeyword("true") != null || IsKeyword("false") != null)
-      {
-        return ParseBool();
-      }
-
-      var tok = input.Next();
-
-      if (tok.Type == TokenType.Identifier || tok.Type == TokenType.Integer || tok.Type == TokenType.Double || tok.Type == TokenType.String || tok.Type == TokenType.Char)
-      {
-        return tok;
-      }
-
-      Unexpected();
-      return null;
-    });
-  }
-
-  private dynamic ParseExpression()
-  {
-    return MaybeCall(() =>
-    {
-      return MaybeBinary(ParseAtom(), 0);
-    });
-  } */
 }

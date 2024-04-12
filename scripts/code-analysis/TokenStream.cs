@@ -3,6 +3,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+public class Token
+{
+  public TokenType Type { get; set; }
+  public object Value { get; set; }
+
+  public Token(TokenType type, object value)
+  {
+    Type = type;
+    Value = value;
+  }
+}
+
+public enum TokenType
+{
+  // Data Types, used to identify the data type of a values
+  Integer,
+  Double,
+  String,
+  Char,
+  Boolean,
+
+  // Basic Arthimetic Operations
+  Plus,
+  Minus,
+  Mult,
+  Div,
+  Mod,
+
+  // Tokens na hindi ko pa macategorize
+  // Variable,
+  Identifier,
+  Keyword,
+  Punctuation,
+  Terminator,
+  Operator,
+  Program,
+  EOF,
+}
+
 public class TokenStream : Node
 {
   private string ConsolePrint;
@@ -123,7 +162,7 @@ public class TokenStream : Node
       return IsDigit(ch);
     });
 
-    if (number.EndsWith("."))
+    if (number.StartsWith(".") || number.EndsWith("."))
     {
       ConsolePrint += input.croak("ERROR: Invalid decimal point placement at");
       return null;
@@ -234,7 +273,7 @@ public class TokenStream : Node
   private Token ReadNext()
   {
     ReadWhile(IsWhitespace);
-    if (input.EOF()) return null;
+    if (input.EOF()) return new Token(TokenType.EOF, null);
     char ch = input.Peek();
     if (ch == '#')
     {

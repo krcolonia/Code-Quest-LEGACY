@@ -7,11 +7,11 @@ public class MenuBtn : Button
 
   public override void _Ready()
   {
-	
+
   }
 
   private void _on_Button_pressed()
   {
-	GetNode<AudioStreamPlayer>("/root/BtnClick").Play();
+    GetNode<AudioStreamPlayer>("/root/BtnClick").Play();
   }
 }
