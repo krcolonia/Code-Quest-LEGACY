@@ -27,7 +27,7 @@ public class Parser : Node
   public Token Next()
   {
     Token tok = tokens[current];
-    current++;
+    current += 1;
 
     return tok;
   }
@@ -39,7 +39,7 @@ public class Parser : Node
 
   public bool EOF()
   {
-    return Peek() == new Token(TokenType.EOF, null);
+    return Peek().Type == TokenType.EOF;
   }
 
   public string croak(string msg)

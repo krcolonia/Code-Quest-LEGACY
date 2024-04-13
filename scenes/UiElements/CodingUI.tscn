@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/fonts/console-font.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://scenes/Code-Analysis/CQScriptBase.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/UiElements/CodingUI.cs" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 25
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 1, 1, 1, 0 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0, 0, 1 )
+
+[node name="CodingUI" type="Node"]
+script = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchor_left = 0.1
+anchor_top = 0.144
+anchor_right = 0.9
+anchor_bottom = 0.539
+margin_top = 0.319992
+margin_bottom = 187.92
+
+[node name="CodeWorkspace" type="TextEdit" parent="CanvasLayer/VBoxContainer"]
+margin_right = 576.0
+margin_bottom = 283.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 1 )
+custom_styles/normal = SubResource( 3 )
+show_line_numbers = true
+bookmark_gutter = true
+highlight_all_occurrences = true
+caret_block_mode = true
+caret_blink = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CodeConsole" type="TextEdit" parent="CanvasLayer/VBoxContainer"]
+margin_top = 287.0
+margin_right = 576.0
+margin_bottom = 472.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.65
+custom_fonts/font = SubResource( 2 )
+custom_styles/read_only = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+text = "C:\\Users\\Player>"
+readonly = true
+smooth_scrolling = true
+
+[node name="CQScriptBase" parent="." instance=ExtResource( 2 )]

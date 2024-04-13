@@ -2,6 +2,19 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+// ? this file contains all of the available ASTs that CQScript can parse.
+// ? An AST is basically what tells the structure of something
+
+// ? Example, "1 + 2" is a Binary Expression.
+// ? Turning that expression into an AST will be structured like so:
+// ? BinaryExpr
+// ? {
+// ?    Type: NodeType.BinaryExpr
+// ?    Left: 1
+// ?    Right: 2
+// ?    Operator: +
+// ? }
+
 public enum NodeType
 {
   Program,

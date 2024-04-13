@@ -273,7 +273,7 @@ public class TokenStream : Node
   private Token ReadNext()
   {
     ReadWhile(IsWhitespace);
-    if (input.EOF()) return new Token(TokenType.EOF, null);
+    if (input.EOF()) return null;
     char ch = input.Peek();
     if (ch == '#')
     {
