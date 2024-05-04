@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/CAPS LOCK.mp3-14fa65d748f185880086ddcc437cd6d4.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/keyboard/CAPS LOCK.mp3"
+dest_files=[ "res://.import/CAPS LOCK.mp3-14fa65d748f185880086ddcc437cd6d4.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

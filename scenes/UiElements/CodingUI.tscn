@@ -1,8 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/fonts/console-font.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://scenes/Code-Analysis/CQScriptBase.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/UiElements/CodingUI.cs" type="Script" id=3]
+[ext_resource path="res://scenes/UiElements/MenuBtn.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/ui/ingame_UI_border.png" type="Texture" id=5]
+[ext_resource path="res://assets/shadow overlay.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 25
@@ -23,22 +26,50 @@ bg_color = Color( 1, 1, 1, 0 )
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0, 0, 0, 1 )
 
-[node name="CodingUI" type="Node"]
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 6 )
+region_rect = Rect2( 0, 0, 600, 600 )
+margin_left = 60.0
+margin_right = 60.0
+margin_top = 60.0
+margin_bottom = 60.0
+
+[sub_resource type="Theme" id=8]
+Panel/styles/panel = SubResource( 7 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 5 )
+region_rect = Rect2( 0, 0, 600, 600 )
+margin_left = 60.0
+margin_right = 198.18
+margin_top = 69.0
+margin_bottom = 75.9025
+
+[sub_resource type="Theme" id=9]
+Panel/styles/panel = SubResource( 6 )
+
+[node name="CodingUI" type="CanvasLayer"]
 script = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
-anchor_left = 0.1
-anchor_top = 0.144
-anchor_right = 0.9
-anchor_bottom = 0.539
-margin_top = 0.319992
-margin_bottom = 187.92
+anchor_left = 0.015
+anchor_top = 0.061
+anchor_right = 0.986
+anchor_bottom = 0.656
+margin_left = 61.2
+margin_top = 69.92
+margin_right = -61.92
+margin_bottom = -75.6801
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
 [node name="CodeWorkspace" type="TextEdit" parent="CanvasLayer/VBoxContainer"]
 margin_right = 576.0
-margin_bottom = 283.0
+margin_bottom = 370.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
@@ -53,9 +84,9 @@ __meta__ = {
 }
 
 [node name="CodeConsole" type="TextEdit" parent="CanvasLayer/VBoxContainer"]
-margin_top = 287.0
+margin_top = 374.0
 margin_right = 576.0
-margin_bottom = 472.0
+margin_bottom = 616.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.65
@@ -66,4 +97,42 @@ text = "C:\\Users\\Player>"
 readonly = true
 smooth_scrolling = true
 
+[node name="CheckBtn" parent="." instance=ExtResource( 4 )]
+anchor_left = 0.692
+anchor_top = 0.066
+anchor_right = 0.96
+anchor_bottom = 0.066
+margin_left = -0.240021
+margin_top = -73.48
+margin_right = -0.200012
+margin_bottom = 0.520004
+text = "Run Program"
+
 [node name="CQScriptBase" parent="." instance=ExtResource( 2 )]
+
+[node name="BorderCanvas" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Shadow" type="Panel" parent="BorderCanvas"]
+anchor_left = 0.015
+anchor_top = 0.061
+anchor_right = 0.986
+anchor_bottom = 0.656
+margin_left = -2.8
+margin_top = -1.08
+margin_right = 3.07996
+margin_bottom = 9.31995
+theme = SubResource( 8 )
+
+[node name="Border" type="Panel" parent="BorderCanvas"]
+anchor_left = 0.015
+anchor_top = 0.061
+anchor_right = 0.986
+anchor_bottom = 0.656
+margin_left = 0.2
+margin_top = -0.0800018
+margin_right = 0.0799561
+margin_bottom = 0.319946
+theme = SubResource( 9 )
+
+[connection signal="pressed" from="CheckBtn" to="." method="_on_CheckBtn_pressed"]

@@ -80,22 +80,31 @@ _global_script_class_icons={
 
 [application]
 
-config/name="CodeQuest_Capstone"
+config/name="Code Quest"
 run/main_scene="res://main.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://assets/KURTIC-DYNAMIC_LOGO.png"
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 0.141176, 0.141176, 0.141176, 1 )
+config/icon="res://assets/gameicon.png"
 
 [autoload]
 
 BtnClick="*res://assets/audio/ui/btnClick.tscn"
+BgMusic="*res://assets/audio/music/BG_Music.tscn"
+Firebase="*res://static/Firebase.gd"
 
 [display]
 
 window/size/width=720
-window/size/height=720
-window/handheld/orientation="sensor_portrait"
+window/size/height=1280
+window/handheld/orientation="portrait"
 window/ios/hide_home_indicator=false
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/godot_editor_discord_presence/plugin.cfg" )
 
 [gui]
 

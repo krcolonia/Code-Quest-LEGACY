@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class CodingUI : Node
+public class CodingUI : CanvasLayer
 {
   CQScript cqscriptBase = new CQScript();
 
@@ -14,8 +14,8 @@ public class CodingUI : Node
   {
     base._Input(@event);
 
-    var input = GetNode<TextEdit>("CanvasLayer/VBoxContainer/CodeWorkspace");
-    var console = GetNode<TextEdit>("CanvasLayer/VBoxContainer/CodeConsole");
+    var input = GetNode<TextEdit>("/root/Control/CodingUI/CanvasLayer/VBoxContainer/CodeWorkspace");
+    var console = GetNode<TextEdit>("/root/Control/CodingUI/CanvasLayer/VBoxContainer/CodeConsole");
 
     if (Input.IsKeyPressed(16777254))
     {
@@ -24,15 +24,15 @@ public class CodingUI : Node
     }
   }
 
-  // TODO :  implement timer per level. might probably implement it using an instantiated scene again -krColonia
+  // TODO : implement timer per level. might probably implement it using an instantiated scene again -krColonia
 
-  // private void _on_CheckBtn_pressed()
-  // {
-  //   var input = GetNode<TextEdit>("VBoxContainer/CodeWorkspace");
-  //   var console = GetNode<TextEdit>("VBoxContainer/CodeConsole");
+  private void _on_CheckBtn_pressed()
+  {
+    var input = GetNode<TextEdit>("/root/Control/CodingUI/CanvasLayer/VBoxContainer/CodeWorkspace");
+    var console = GetNode<TextEdit>("/root/Control/CodingUI/CanvasLayer/VBoxContainer/CodeConsole");
 
-  //   GD.Print("Your input is:\n" + input.Text + "\n");
+    // GD.Print("Your input is:\n" + input.Text + "\n");
 
-  //   console.Text = "C:\\Users\\Player>\n" + cqscriptBase.RunInterpreter(input.Text);
-  // }
+    console.Text = "C:\\Users\\Player>\n" + cqscriptBase.RunInterpreter(input.Text);
+  }
 }

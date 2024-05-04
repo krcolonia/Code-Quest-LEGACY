@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/placeholder_mainmenu_BG.mp3-3f769c456498601a5072733cbd93485d.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/music/placeholder_mainmenu_BG.mp3"
+dest_files=[ "res://.import/placeholder_mainmenu_BG.mp3-3f769c456498601a5072733cbd93485d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

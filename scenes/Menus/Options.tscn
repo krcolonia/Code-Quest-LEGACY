@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/Game BG.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Menus/Options.gd" type="Script" id=3]
+[ext_resource path="res://assets/ui/icons/exitLeft.png" type="Texture" id=4]
+[ext_resource path="res://scenes/UiElements/MenuBtn.tscn" type="PackedScene" id=5]
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 600, 1042 )
+margin_left = 45.6353
+margin_right = 44.273
+margin_top = 44.1196
+margin_bottom = 45.6163
+
+[sub_resource type="Theme" id=3]
+Panel/styles/panel = SubResource( 2 )
+
+[node name="OptionsMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="BGLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Panel" type="Panel" parent="BGLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 3 )
+
+[node name="Options" type="CanvasLayer" parent="."]
+
+[node name="ReturnMenu" parent="Options" instance=ExtResource( 5 )]
+anchor_left = 0.033
+anchor_top = 0.019
+anchor_right = 0.033
+anchor_bottom = 0.019
+margin_left = 0.24
+margin_top = -0.320002
+margin_right = 84.24
+margin_bottom = 83.68
+icon = ExtResource( 4 )
+expand_icon = true
+
+[connection signal="pressed" from="Options/ReturnMenu" to="." method="_on_ReturnMenu_pressed"]

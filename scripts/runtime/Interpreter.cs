@@ -1,75 +1,37 @@
 using Godot;
 using System;
+using Expressions;
+using Environment;
+using Statements;
+using Values;
 
-public class Interpreter : Node
+namespace Interpreter
 {
-  public static RuntimeVal EvaluateProgram(Program program)
+  public class Eval
   {
-    RuntimeVal lastEvaluated = new NullVal();
-    foreach (Stmt statement in program.Body)
+    public static RuntimeVal Evaluate(Stmt astNode, Environment.Environment env)
     {
-      lastEvaluated = Evaluate(statement);
-    }
-    return lastEvaluated;
-  }
-
-  public static NumberVal EvaluateNumericBinaryExpr(NumberVal lhs, NumberVal rhs, string op)
-  {
-    double result = 0;
-    switch(op)
-    {
-      case "+":
-        result = lhs.Value + rhs.Value;
-        break;
-      case "-":
-        result = lhs.Value - rhs.Value;
-        break;
-      case "*":
-        result = lhs.Value * rhs.Value;
-        break;
-      case "/":
-        result = lhs.Value / rhs.Value; // TODO -- add divide by zero checks
-        GD.Print(result);
-        break;
-      case "%":
-        result = lhs.Value % rhs.Value;
-        break;
-      default:
-        GD.Print("Invalid Operator: " + op);
-        break;
-    }
-
-    return new NumberVal { Value = result };
-  }
-
-  public static RuntimeVal EvaluateBinaryExpr(BinaryExpr binop)
-  {
-    RuntimeVal lhs = Evaluate(binop.Left);
-    RuntimeVal rhs = Evaluate(binop.Right);
-
-    if (lhs is NumberVal && rhs is NumberVal)
-    {
-      return EvaluateNumericBinaryExpr((NumberVal)lhs, (NumberVal)rhs, binop.Operator);
-    }
-
-    return new NullVal();
-  }
-
-  public static RuntimeVal Evaluate(Stmt astNode)
-  {
-    switch (astNode)
-    {
-      case NumericLiteral numLiteral:
-        return new NumberVal { Value = numLiteral.Number };
-      case NullLiteral _:
-        return new NullVal();
-      case BinaryExpr binExpr:
-        return EvaluateBinaryExpr(binExpr);
-      case Program program:
-        return EvaluateProgram(program);
-      default:
-        GD.Print("This AST node has not yet been set up for interpretation");
-        return new NullVal();
+      switch (astNode)
+      {
+        case NumericLiteral numLiteral:
+          GD.Print("Evaluated: NumberVal");
+          return new NumberVal(numLiteral.Number);
+        case NullLiteral _:
+          GD.Print("Evaluated: NullVal");
+          return new NullVal();
+        case Identifier ident:
+          GD.Print("Evaluated: Identifier");
+          return Expressions.Eval.EvaluateIdentifier(ident, env);
+        case BinaryExpr binExpr:
+          GD.Print("Evaluated: Binary Expression");
+          return Expressions.Eval.EvaluateBinaryExpr(binExpr, env);
+        case Program program:
+          GD.Print("Evaluated: Program");
+          return Statements.Eval.EvaluateProgram(program, env);
+        default:
+          GD.Print("This AST node has not yet been set up for interpretation");
+          return MK_NULL.Create();
+      }
     }
   }
 }

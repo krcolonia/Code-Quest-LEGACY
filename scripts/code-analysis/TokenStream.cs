@@ -24,19 +24,29 @@ public enum TokenType
   Char,
   Boolean,
 
-  // Basic Arthimetic Operations
+  // Groupings and Operators
   Plus,
   Minus,
   Mult,
   Div,
   Mod,
+  Equals,
+  Greater,
+  Lesser,
+  Comma,
+  OpenParen,
+  CloseParen,
+  OpenBrace,
+  CloseBrace,
 
-  // Tokens na hindi ko pa macategorize
+  // Function
+  Function,
+  
   // Variable,
   Identifier,
   Keyword,
   Punctuation,
-  Terminator,
+  Terminator, // ? this token type is for the semicolons at the end of a line
   Operator,
   Program,
   EOF,
@@ -60,6 +70,7 @@ public class TokenStream : Node
       // "else",
       "true",
       "false",
+      "func",
     };
 
   public TokenStream(InputStream input, string ConsolePrint)
@@ -183,6 +194,40 @@ public class TokenStream : Node
     return new Token(IsKeyword(id) ? TokenType.Keyword : TokenType.Identifier, id);
   }
 
+  private Token ReadPunc()
+  {
+    char punc = char.Parse(ReadWhile(IsPunc));
+    return punc switch
+    {
+      ',' => new Token(TokenType.Comma, punc),
+      '{' => new Token(TokenType.OpenBrace, punc),
+      '}' => new Token(TokenType.CloseBrace, punc),
+      '(' => new Token(TokenType.OpenParen, punc),
+      ')' => new Token(TokenType.CloseParen, punc),
+      _ => null,
+    };
+
+  }
+
+  private Token ReadOpChar()
+  {
+    char op = char.Parse(ReadWhile(IsOpChar));
+
+    return op switch
+    {
+      '+' => new Token(TokenType.Plus, op),
+      '-' => new Token(TokenType.Minus, op),
+      '*' => new Token(TokenType.Mult, op),
+      '/' => new Token(TokenType.Div, op),
+      '%' => new Token(TokenType.Mod, op),
+      '=' => new Token(TokenType.Equals, op),
+      '>' => new Token(TokenType.Greater, op),
+      '<' => new Token(TokenType.Lesser, op),
+      _ => null,
+    };
+
+  }
+
   private string ReadEscaped(char end)
   {
     bool escaped = false;
@@ -260,7 +305,7 @@ public class TokenStream : Node
     }
     else
     {
-      return new Token(TokenType.Char, str); //char.Parse(str)
+      return new Token(TokenType.Char, str);  //char.Parse(str)
     }
   }
 
@@ -281,12 +326,18 @@ public class TokenStream : Node
       return ReadNext();
     }
     if (ch == '\'') return ReadChar();
+
     if (ch == '"') return ReadString();
+
     if (IsDigit(ch)) return ReadDigit();
+
     if (IsIdStart(ch)) return ReadIdent();
-    if (IsPunc(ch)) return new Token(TokenType.Punctuation, input.Next().ToString());
+
+    if (IsPunc(ch)) return ReadPunc(); 
+
+    if (IsOpChar(ch)) return ReadOpChar();
+
     if (IsTerminator(ch)) return new Token(TokenType.Terminator, input.Next().ToString());
-    if (IsOpChar(ch)) return new Token(TokenType.Operator, ReadWhile(IsOpChar));
 
     return null;
   }
